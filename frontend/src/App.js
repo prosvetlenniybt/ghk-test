@@ -1,0 +1,89 @@
+import React, { useState } from 'react';
+import './Chat.css';
+
+function formatAIText(text) {
+  // Заменяем **жирный** и *курсив* и \n на переносы строк, а также списки
+  let formatted = text
+    .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+    .replace(/\*(.*?)\*/g, '<i>$1</i>')
+    .replace(/\n/g, '<br/>')
+    .replace(/^- (.*)$/gm, '<li>$1</li>');
+  // Если есть <li>, обернуть в <ul>
+  if (/<li>/.test(formatted)) {
+    formatted = formatted.replace(/(<li>.*<\/li>)/gs, '<ul>$1</ul>');
+  }
+  return formatted;
+}
+
+function App() {
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const sendMessage = async (e) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+    const userMsg = { sender: 'user', text: input };
+    setMessages((msgs) => [...msgs, userMsg]);
+    setInput('');
+    setLoading(true);
+
+    try {
+      const res = await fetch('http://localhost:5002/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: input }),
+      });
+      const data = await res.json();
+      setMessages((msgs) => [
+        ...msgs,
+        { sender: 'ai', text: data.reply || 'Ошибка ответа AI' },
+      ]);
+    } catch {
+      setMessages((msgs) => [
+        ...msgs,
+        { sender: 'ai', text: 'Ошибка соединения с сервером' },
+      ]);
+    }
+    setLoading(false);
+  };
+
+  return (
+    <div className="chat-container">
+      <div className="chat-window">
+        {messages.length === 0 && !loading && (
+          <div className="placeholder-message">
+            Задай любой вопрос по ЖКУ ассистенту, он поможет разобраться.
+          </div>
+        )}
+        {messages.map((msg, i) => (
+          msg.sender === 'ai' ? (
+            <div
+              key={i}
+              className={`chat-bubble ${msg.sender}`}
+              dangerouslySetInnerHTML={{ __html: formatAIText(msg.text) }}
+            />
+          ) : (
+            <div
+              key={i}
+              className={`chat-bubble ${msg.sender}`}
+            >
+              {msg.text}
+            </div>
+          )
+        ))}
+        {loading && <div className="chat-bubble ai">AI печатает...</div>}
+      </div>
+      <form className="chat-input" onSubmit={sendMessage}>
+        <input
+          value={input}
+          onChange={e => setInput(e.target.value)}
+          placeholder="Введите сообщение..."
+        />
+        <button type="submit" disabled={loading}>Отправить</button>
+      </form>
+    </div>
+  );
+}
+
+export default App; 
