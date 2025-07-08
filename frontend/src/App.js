@@ -31,7 +31,6 @@ function App() {
   );
 
   const chatWindowRef = useRef(null);
-  const lastAIRef = useRef(null);
 
   useEffect(() => {
     if (!loading) {
@@ -45,11 +44,8 @@ function App() {
   }, [loading]);
 
   useEffect(() => {
-    if (lastAIRef.current && chatWindowRef.current) {
-      const chatRect = chatWindowRef.current.getBoundingClientRect();
-      const aiRect = lastAIRef.current.getBoundingClientRect();
-      // Скроллим так, чтобы AI-бабл был вверху с отступом 20px
-      chatWindowRef.current.scrollTop += (aiRect.top - chatRect.top) - 20;
+    if (chatWindowRef.current) {
+      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
     }
   }, [messages]);
 
@@ -111,7 +107,6 @@ function App() {
               key={i}
               className={`chat-bubble ${msg.sender}`}
               dangerouslySetInnerHTML={{ __html: formatAIText(msg.text) }}
-              ref={i === messages.length - 1 ? lastAIRef : null}
             />
           ) : (
             <div
