@@ -29,6 +29,7 @@ const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/
 
 app.post('/api/chat', async (req, res) => {
   const userMessage = req.body.message;
+  const promptCount = req.body.promptcount;
   if (!userMessage) return res.status(400).json({ reply: 'Нет сообщения' });
 
   let aiReply = '';
@@ -48,9 +49,9 @@ app.post('/api/chat', async (req, res) => {
     const sheets = await getSheetsClient();
     await sheets.spreadsheets.values.append({
       spreadsheetId: SHEET_ID,
-      range: 'A:B',
+      range: 'A:C',
       valueInputOption: 'RAW',
-      requestBody: { values: [[userMessage, aiReply]] },
+      requestBody: { values: [[userMessage, aiReply, promptCount]] },
     });
   } catch (e) {
     console.error('Sheets error:', e?.response?.data || e.message);
