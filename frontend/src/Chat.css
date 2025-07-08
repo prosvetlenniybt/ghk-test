@@ -5,13 +5,12 @@ body {
 }
 
 .chat-container {
-  /* max-width: 500px; */
-  /* margin: 40px auto; */
   width: 100vw;
   height: 100vh;
   display: flex;
   flex-direction: column;
   background: transparent;
+  overflow: hidden;
 }
 
 .chat-window {
@@ -23,7 +22,8 @@ body {
   gap: 10px;
   justify-content: flex-start;
   align-items: stretch;
-  padding-bottom: 90px; /* чтобы не перекрывалось полем ввода */
+  padding-bottom: 90px;
+  scroll-padding-bottom: 100px;
 }
 
 .chat-bubble {
@@ -93,7 +93,7 @@ body {
   color: #222;
   text-align: center;
   font-size: 18px;
-  margin-top: 30%;
+  padding-top: 20vh;
   padding: 0 20px;
   line-height: 1.6;
   font-family: 'Roboto', Arial, sans-serif;
