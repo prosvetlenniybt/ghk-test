@@ -44,12 +44,6 @@ function App() {
     return () => clearInterval(interval);
   }, [loading]);
 
-  useEffect(() => {
-    if (chatWindowRef.current) {
-      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
-    }
-  }, [messages]);
-
   // JS-fix для мобильных: динамическая высота контейнера
   useEffect(() => {
     const setContainerHeight = () => {
