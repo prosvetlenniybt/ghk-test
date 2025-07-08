@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const axios = require('axios');
 const { google } = require('googleapis');
 const path = require('path');
+const fs = require('fs');
 
 const app = express();
 app.use(cors());
@@ -13,6 +14,12 @@ const GEMINI_API_KEY = 'AIzaSyAMdxpXJDLmIPegh-lCBzoHA1WUF5j2guM';
 
 const SHEET_ID = '1_XK3eodHB0E7rlwQzownmTMig1kYQe17xDvlMGaLhcE';
 const CREDENTIALS_PATH = path.join(__dirname, 'credentials', 'ai-jku-test.json');
+
+// Если переменная окружения есть — создаём файл при запуске
+if (process.env.GOOGLE_CREDENTIALS_JSON) {
+  fs.mkdirSync(path.dirname(CREDENTIALS_PATH), { recursive: true });
+  fs.writeFileSync(CREDENTIALS_PATH, process.env.GOOGLE_CREDENTIALS_JSON);
+}
 
 async function appendToSheet(question, answer) {
   const auth = new google.auth.GoogleAuth({
