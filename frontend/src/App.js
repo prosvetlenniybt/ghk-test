@@ -110,7 +110,7 @@ function App() {
 
   return (
     <div className="chat-container" ref={chatContainerRef}>
-      <div className="chat-window" ref={chatWindowRef}>
+      <div className={"chat-window" + (messages.length === 0 && !loading ? " empty" : "")} ref={chatWindowRef}>
         {messages.length === 0 && !loading && (
           <div className="placeholder-message">
             Я - ИИ-ассистент.
