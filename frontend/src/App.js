@@ -46,7 +46,8 @@ function App() {
 
   useEffect(() => {
     if (chatWindowRef.current) {
-      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
+      const extraScroll = 100; // запас, равный высоте input + отступ
+      chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight + extraScroll;
     }
   }, [messages]);
 
