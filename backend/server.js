@@ -11,6 +11,13 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.options('*', cors());
+app.use((req, res, next) => {
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(204);
+  } else {
+    next();
+  }
+});
 
 const GEMINI_API_KEY = 'AIzaSyAMdxpXJDLmIPegh-lCBzoHA1WUF5j2guM';
 
