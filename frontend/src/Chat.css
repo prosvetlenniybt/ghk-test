@@ -59,26 +59,29 @@ body {
   width: 100vw;
   box-shadow: 0 -2px 16px 0 rgba(0,0,0,0.04);
   z-index: 10;
+  box-sizing: border-box;
 }
 
 .chat-input input {
   flex: 1;
   padding: 10px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 16px;
   font-size: 16px;
   margin-right: 10px;
+  box-sizing: border-box;
 }
 
 .chat-input button {
   padding: 10px 18px;
   border: none;
-  border-radius: 8px;
+  border-radius: 16px;
   background: #EF3124;
   color: #fff;
   font-size: 16px;
   cursor: pointer;
   transition: background 0.2s;
+  box-sizing: border-box;
 }
 
 .chat-input button:disabled {
