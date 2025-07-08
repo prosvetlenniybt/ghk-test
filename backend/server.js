@@ -7,8 +7,10 @@ const path = require('path');
 const fs = require('fs');
 
 const app = express();
+
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
+app.options('*', cors());
 
 const GEMINI_API_KEY = 'AIzaSyAMdxpXJDLmIPegh-lCBzoHA1WUF5j2guM';
 
@@ -61,4 +63,5 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-app.listen(5002, () => console.log('Backend started on port 5002')); 
+const PORT = process.env.PORT || 5002;
+app.listen(PORT, () => console.log(`Backend started on port ${PORT}`)); 
