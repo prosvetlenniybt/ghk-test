@@ -31,6 +31,7 @@ function App() {
   );
 
   const chatWindowRef = useRef(null);
+  const chatContainerRef = useRef(null);
 
   useEffect(() => {
     if (!loading) {
@@ -48,6 +49,30 @@ function App() {
       chatWindowRef.current.scrollTop = chatWindowRef.current.scrollHeight;
     }
   }, [messages]);
+
+  // JS-fix для мобильных: динамическая высота контейнера
+  useEffect(() => {
+    const setContainerHeight = () => {
+      if (chatContainerRef.current) {
+        chatContainerRef.current.style.height = window.innerHeight + 'px';
+      }
+    };
+    setContainerHeight();
+    window.addEventListener('resize', setContainerHeight);
+    // Фокус на input/textarea
+    const inputs = document.querySelectorAll('input, textarea');
+    inputs.forEach(inp => {
+      inp.addEventListener('focus', setContainerHeight);
+      inp.addEventListener('blur', setContainerHeight);
+    });
+    return () => {
+      window.removeEventListener('resize', setContainerHeight);
+      inputs.forEach(inp => {
+        inp.removeEventListener('focus', setContainerHeight);
+        inp.removeEventListener('blur', setContainerHeight);
+      });
+    };
+  }, []);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -90,7 +115,7 @@ function App() {
   }
 
   return (
-    <div className="chat-container">
+    <div className="chat-container" ref={chatContainerRef}>
       <div className="chat-window" ref={chatWindowRef}>
         {messages.length === 0 && !loading && (
           <div className="placeholder-message">

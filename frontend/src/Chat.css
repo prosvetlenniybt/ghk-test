@@ -2,15 +2,17 @@ body {
   min-height: 100vh;
   background: #EAEEF2;
   font-family: 'Roboto', Arial, sans-serif;
+  overflow: hidden;
 }
 
 .chat-container {
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   background: transparent;
   overflow: hidden;
+  box-sizing: border-box;
 }
 
 .chat-window {
@@ -24,6 +26,7 @@ body {
   align-items: stretch;
   padding-bottom: 90px;
   scroll-padding-bottom: 100px;
+  box-sizing: border-box;
 }
 
 .chat-bubble {

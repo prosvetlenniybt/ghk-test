@@ -3,14 +3,15 @@ import React from "react";
 export default function LimitPage() {
   return (
     <div style={{
-      height: "100vh",
+      height: "100dvh",
       display: "flex",
       flexDirection: "column",
       justifyContent: "center",
       alignItems: "center",
       fontFamily: "Roboto, Arial, sans-serif",
       margin: 10,
-      background: "#fff"
+      background: "#fff",
+      boxSizing: "border-box"
     }}>
       <span style={{ fontSize: 120 }}>🚀</span>
       <h1 style={{ margin: "32px 0 8px 0" }}>Ещё чуть-чуть</h1>
