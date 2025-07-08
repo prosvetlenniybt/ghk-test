@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './Chat.css';
 import LimitPage from './LimitPage';
 
@@ -30,6 +30,9 @@ function App() {
     localStorage.getItem('limitReached') === '1'
   );
 
+  const chatWindowRef = useRef(null);
+  const lastAIRef = useRef(null);
+
   useEffect(() => {
     if (!loading) {
       setDots(1);
@@ -40,6 +43,15 @@ function App() {
     }, 500);
     return () => clearInterval(interval);
   }, [loading]);
+
+  useEffect(() => {
+    if (lastAIRef.current && chatWindowRef.current) {
+      const chatRect = chatWindowRef.current.getBoundingClientRect();
+      const aiRect = lastAIRef.current.getBoundingClientRect();
+      // Скроллим так, чтобы AI-бабл был вверху с отступом 20px
+      chatWindowRef.current.scrollTop += (aiRect.top - chatRect.top) - 20;
+    }
+  }, [messages]);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -83,7 +95,7 @@ function App() {
 
   return (
     <div className="chat-container">
-      <div className="chat-window">
+      <div className="chat-window" ref={chatWindowRef}>
         {messages.length === 0 && !loading && (
           <div className="placeholder-message">
             Задай любой вопрос по ЖКУ ассистенту, он поможет разобраться.
@@ -95,6 +107,7 @@ function App() {
               key={i}
               className={`chat-bubble ${msg.sender}`}
               dangerouslySetInnerHTML={{ __html: formatAIText(msg.text) }}
+              ref={i === messages.length - 1 ? lastAIRef : null}
             />
           ) : (
             <div

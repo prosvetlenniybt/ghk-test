@@ -1,14 +1,16 @@
-body, .chat-container, .chat-window, .chat-bubble, .chat-input, .chat-input input, .chat-input button {
-  font-family: 'Roboto', Arial, sans-serif;
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffe7e0 0%, #f7f7fa 100%);
 }
 
 .chat-container {
-  max-width: 500px;
-  margin: 40px auto;
+  /* max-width: 500px; */
+  /* margin: 40px auto; */
+  width: 100vw;
+  height: 100vh;
   display: flex;
   flex-direction: column;
-  height: 80vh;
-  background: #fafafa;
+  background: transparent;
 }
 
 .chat-window {
@@ -20,6 +22,7 @@ body, .chat-container, .chat-window, .chat-bubble, .chat-input, .chat-input inpu
   gap: 10px;
   justify-content: flex-start;
   align-items: stretch;
+  padding-bottom: 90px; /* чтобы не перекрывалось полем ввода */
 }
 
 .chat-bubble {
@@ -49,6 +52,12 @@ body, .chat-container, .chat-window, .chat-bubble, .chat-input, .chat-input inpu
   border-top: 1px solid #eee;
   padding: 12px;
   background: #fff;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100vw;
+  box-shadow: 0 -2px 16px 0 rgba(0,0,0,0.04);
+  z-index: 10;
 }
 
 .chat-input input {
