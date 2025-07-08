@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Chat.css';
 import LimitPage from './LimitPage';
 
@@ -20,6 +20,7 @@ function App() {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [dots, setDots] = useState(1);
 
   const LIMIT = 5;
   const [questionCount, setQuestionCount] = useState(
@@ -28,6 +29,17 @@ function App() {
   const [limitReached, setLimitReached] = useState(
     localStorage.getItem('limitReached') === '1'
   );
+
+  useEffect(() => {
+    if (!loading) {
+      setDots(1);
+      return;
+    }
+    const interval = setInterval(() => {
+      setDots(prev => (prev % 3) + 1);
+    }, 500);
+    return () => clearInterval(interval);
+  }, [loading]);
 
   const sendMessage = async (e) => {
     e.preventDefault();
@@ -93,7 +105,7 @@ function App() {
             </div>
           )
         ))}
-        {loading && <div className="chat-bubble ai">AI печатает...</div>}
+        {loading && <div className="chat-bubble ai">AI печатает{".".repeat(dots)}</div>}
       </div>
       <form className="chat-input" onSubmit={sendMessage}>
         <input
