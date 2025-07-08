@@ -1,6 +1,7 @@
 body {
   min-height: 100vh;
-  background: linear-gradient(135deg, #ffe7e0 0%, #f7f7fa 100%);
+  background: #EAEEF2;
+  font-family: 'Roboto', Arial, sans-serif;
 }
 
 .chat-container {
@@ -50,7 +51,7 @@ body {
 .chat-input {
   display: flex;
   border-top: 1px solid #eee;
-  padding: 12px;
+  padding: 12px 16px;
   background: #fff;
   position: fixed;
   left: 0;
@@ -66,10 +67,10 @@ body {
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 16px;
+  margin-right: 10px;
 }
 
 .chat-input button {
-  margin-left: 10px;
   padding: 10px 18px;
   border: none;
   border-radius: 8px;
@@ -86,10 +87,12 @@ body {
 }
 
 .placeholder-message {
-  color: #888;
+  color: #222;
   text-align: center;
   font-size: 18px;
   margin-top: 30%;
   padding: 0 20px;
   line-height: 1.6;
+  font-family: 'Roboto', Arial, sans-serif;
+  white-space: pre-line;
 } 
