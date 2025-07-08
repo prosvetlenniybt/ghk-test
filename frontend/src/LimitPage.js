@@ -9,8 +9,6 @@ export default function LimitPage() {
       justifyContent: "center",
       alignItems: "center",
       fontFamily: "Roboto, Arial, sans-serif",
-      border: "4px solid #bbb",
-      borderRadius: "32px",
       margin: 10,
       background: "#fff"
     }}>
