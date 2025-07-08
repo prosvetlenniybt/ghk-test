@@ -16,9 +16,9 @@ body {
 .chat-window {
   flex: 1;
   overflow-y: auto;
-  padding-top: calc(env(safe-area-inset-top, 44px) + 20px);
+  padding-top: calc(env(safe-area-inset-top, 50px) + 50px);
   padding-right: 16px;
-  padding-bottom: 30px;
+  padding-bottom: 50px;
   padding-left: 16px;
   display: flex;
   flex-direction: column;
