@@ -11,6 +11,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.options('*', cors());
+app.options('/api/chat', cors());
 app.use((req, res, next) => {
   if (req.method === 'OPTIONS') {
     res.sendStatus(204);
