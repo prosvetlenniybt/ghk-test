@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 const { google } = require('googleapis');
-const fs = require('fs');
 const app = express();
 
 app.use(cors());
@@ -12,13 +11,12 @@ app.options('*', cors());
 
 // === Google Sheets Setup ===
 const SHEET_ID = process.env.GOOGLE_SHEET_ID;
-const CREDENTIALS_PATH = process.env.GOOGLE_CREDENTIALS_JSON || './credentials/ai-jku-test.json';
 let sheetsClient;
 
 async function getSheetsClient() {
   if (sheetsClient) return sheetsClient;
   const auth = new google.auth.GoogleAuth({
-    credentials: JSON.parse(fs.readFileSync(CREDENTIALS_PATH, 'utf8')),
+    credentials: JSON.parse(process.env.GOOGLE_CREDENTIALS_JSON),
     scopes: ['https://www.googleapis.com/auth/spreadsheets'],
   });
   sheetsClient = google.sheets({ version: 'v4', auth });
