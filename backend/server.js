@@ -89,12 +89,15 @@ app.post('/api/chat', async (req, res) => {
 
   // 2. Запись в Google Sheets
   try {
+    // Получаем дату и время по Москве
+    const moscowDate = new Date(new Date().toLocaleString('en-US', { timeZone: 'Europe/Moscow' }));
+    const dateTimeStr = moscowDate.toISOString().replace('T', ' ').substring(0, 19); // "YYYY-MM-DD HH:MM:SS"
     const sheets = await getSheetsClient();
     await sheets.spreadsheets.values.append({
       spreadsheetId: SHEET_ID,
-      range: 'A:C',
+      range: 'A:D',
       valueInputOption: 'RAW',
-      requestBody: { values: [[userMessage, aiReply, promptCount]] },
+      requestBody: { values: [[dateTimeStr, promptCount, userMessage, aiReply]] },
     });
   } catch (e) {
     console.error('Sheets error:', e?.response?.data || e.message);
