@@ -74,6 +74,22 @@ function App() {
     };
   }, []);
 
+  // Аналитика: отправка событий
+  const sendAnalyticsEvent = (event) => {
+    if (window.gtag) {
+      window.gtag('event', event);
+    }
+    if (window.ym) {
+      window.ym(96171108, 'reachGoal', event);
+    }
+  };
+
+  useEffect(() => {
+    // Событие первого рендера
+    sendAnalyticsEvent('5640_page_view');
+  // eslint-disable-next-line
+  }, []);
+
   const sendMessage = async (e) => {
     e.preventDefault();
     if (!input.trim() || limitReached) return;
@@ -108,9 +124,11 @@ function App() {
       ]);
     }
     setLoading(false);
+    sendAnalyticsEvent('5640_click_send');
   };
 
   if (limitReached) {
+    sendAnalyticsEvent('5640_end_page_view');
     return <LimitPage />;
   }
 
