@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './Chat.css';
-import LimitPage from './LimitPage';
 
 function formatAIText(text) {
   // Заменяем **жирный** и *курсив* и \n на переносы строк, а также списки
@@ -21,14 +20,9 @@ function App() {
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [dots, setDots] = useState(1);
+  const [questionCount, setQuestionCount] = useState(0);
 
-  const LIMIT = 5;
-  const [questionCount, setQuestionCount] = useState(
-    Number(localStorage.getItem('questionCount') || 0)
-  );
-  const [limitReached, setLimitReached] = useState(
-    localStorage.getItem('limitReached') === '1'
-  );
+
 
   const chatWindowRef = useRef(null);
   const chatContainerRef = useRef(null);
@@ -74,25 +68,11 @@ function App() {
     };
   }, []);
 
-  // Аналитика: отправка событий
-  const sendAnalyticsEvent = (event) => {
-    if (window.gtag) {
-      window.gtag('event', event);
-    }
-    if (window.ym) {
-      window.ym(96171108, 'reachGoal', event);
-    }
-  };
 
-  useEffect(() => {
-    // Событие первого рендера
-    sendAnalyticsEvent('5640_page_view');
-  // eslint-disable-next-line
-  }, []);
 
   const sendMessage = async (e) => {
     e.preventDefault();
-    if (!input.trim() || limitReached) return;
+    if (!input.trim()) return;
     const userMsg = { sender: 'user', text: input };
     setMessages((msgs) => [...msgs, userMsg]);
     setInput('');
@@ -100,11 +80,6 @@ function App() {
 
     const newCount = questionCount + 1;
     setQuestionCount(newCount);
-    localStorage.setItem('questionCount', newCount);
-    if (newCount >= LIMIT) {
-      setLimitReached(true);
-      localStorage.setItem('limitReached', '1');
-    }
 
     try {
       const res = await fetch((process.env.REACT_APP_BACKEND_URL || 'http://localhost:5002') + '/api/chat', {
@@ -124,13 +99,9 @@ function App() {
       ]);
     }
     setLoading(false);
-    sendAnalyticsEvent('5640_click_send');
   };
 
-  if (limitReached) {
-    sendAnalyticsEvent('5640_end_page_view');
-    return <LimitPage />;
-  }
+
 
   return (
     <div className="chat-container" ref={chatContainerRef}>

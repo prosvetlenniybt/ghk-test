@@ -10,7 +10,7 @@ app.options('/api/chat', cors());
 app.options('*', cors());
 
 // === Google Sheets Setup ===
-const SHEET_ID = process.env.GOOGLE_SHEET_ID;
+const SHEET_ID = '1_EpFvK6w73hpkNyee7xsapPdMYolbjrJ_wt2K11JwHk';
 let sheetsClient;
 
 async function getSheetsClient() {
@@ -70,7 +70,7 @@ const SYSTEM_PROMPT = `Ты — ИИ-ассистент Альфа-Банка. �
 
 app.post('/api/chat', async (req, res) => {
   const userMessage = req.body.message;
-  const promptCount = req.body.promptcount;
+  const promptCount = req.body.promptcount || 1;
   if (!userMessage) return res.status(400).json({ reply: 'Нет сообщения' });
 
   const fullPrompt = `${SYSTEM_PROMPT}\n\n${userMessage}`;
