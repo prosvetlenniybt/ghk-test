@@ -82,7 +82,7 @@ function App() {
     setQuestionCount(newCount);
 
     try {
-      const res = await fetch((process.env.REACT_APP_BACKEND_URL || 'http://localhost:5002') + '/api/chat', {
+      const res = await fetch((process.env.REACT_APP_BACKEND_URL || 'https://ghk-test.onrender.com') + '/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: input, promptcount: newCount }),
